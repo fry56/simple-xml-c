@@ -23,10 +23,6 @@ xml_node *xml_new_node(xml_node *parent)
 
 void xml_node_free(xml_node *xml_node)
 {
-    if (xml_node->tag)
-        free(xml_node->tag);
-    if (xml_node->inner_text)
-        free(xml_node->inner_text);
     list_foreach(xml_node->list_attributes, node) {
         free(((xml_attribute *)node->value)->value);
         free(((xml_attribute *)node->value)->key);

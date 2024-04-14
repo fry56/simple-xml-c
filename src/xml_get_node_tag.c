@@ -20,10 +20,10 @@ static void get_node_tag_attribute(xml_node *node, char *buf)
     while (match++) {
         temp = calloc(1, sizeof(xml_attribute));
         key_end = str_index_of(match, "=\"");
-        temp->key = calloc(1, key_end - 1);
-        strncpy(temp->key, match, key_end - 1);
+        temp->key = calloc(1, key_end);
+        strncpy(temp->key, match, key_end);
         attribute_end = str_index_of(match + key_end + 2, "\"");
-        temp->value = calloc(1, attribute_end - 1);
+        temp->value = calloc(1, attribute_end);
         strncpy(temp->value, match + key_end + 2, attribute_end - 1);
         list_add(node->list_attributes, temp);
         if (*(match + key_end + 2 + attribute_end + 1) == '>')
@@ -45,11 +45,11 @@ size_t xml_get_node_tag(xml_node *node, char *buf)
     tag_end = str_index_of(match, " ");
     for (; match[i] != '>'; ++i);
     if (tag_end < i && tag_end > 0) {
-        node->tag = calloc(1, tag_end - 2);
-        strncpy(node->tag, match + 1, tag_end - 2);
+        node->tag = calloc(1, tag_end);
+        strncpy(node->tag, match + 1, tag_end - 1);
     } else {
-        node->tag = calloc(1, i - 2);
-        strncpy(node->tag, match + 1, i - 2);
+        node->tag = calloc(1, i);
+        strncpy(node->tag, match + 1, i - 1);
     }
     return i + 1;
 }

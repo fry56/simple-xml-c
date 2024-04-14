@@ -7,6 +7,7 @@
 
 #include "xml.h"
 #include "utils.h"
+#include <stdio.h>
 
 static int xml_is_valid_end_tag(char *buf, xml_node *current, size_t *index)
 {
@@ -23,13 +24,15 @@ static int xml_is_valid_end_tag(char *buf, xml_node *current, size_t *index)
     return 2;
 }
 
-bool xml_parser(xml *doc, xml_file *file)
+bool xml_parser(xml *doc, char *content)
 {
     size_t index = 0;
-    char *buf = str_match(file->buf, "<.*>");
+    char *buf = str_match(content, "<.*>");
     xml_node *current = NULL;
     int valid_end;
 
+    if (buf == NULL)
+        return false;
     while (buf[index] != '\0') {
         if (buf[index] != '<') {
             index++;

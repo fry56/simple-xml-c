@@ -16,8 +16,8 @@ size_t xml_get_node_inner_text(xml_node *node, char *buf)
             break;
     }
     if (index > 0) {
-        node->inner_text = calloc(0, sizeof(char) * (index - 1));
-        strncpy(node->inner_text, buf, index - 1);
+        node->inner_text = calloc(1, sizeof(char) * (index) + 1);
+        strncpy(node->inner_text, buf, index);
     }
     return index;
 }
