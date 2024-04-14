@@ -42,15 +42,16 @@ typedef struct xml {
 
 xml *xml_load(const char *path);
 void xml_free(xml *doc);
-xml_node *xml_new_node(xml_node *parent);
+xml_node *xml_new_node(xml_node *parent, char *tag, char *inner_text);
 void xml_node_free(xml_node *node);
 bool xml_parser(xml *doc, char *content);
 void xml_add_data(xml *doc, xml_node **current, size_t *index, char *buf);
 size_t xml_get_node_inner_text(xml_node *node, char *buf);
 size_t xml_get_node_tag(xml_node *node, char *buf);
-xml *xml_new(void);
+xml *xml_new(char *tag);
 char *xml_str(xml *doc);
 xml_node *xml_get_node_by_tag(xml_node *node, char *tag);
+void xml_add_node(xml_node *node, xml_node *new_node);
 
 char *serialize_node(xml_node *node);
 xml_file *xml_file_open(char *path, int flags, bool buff);

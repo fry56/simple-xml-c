@@ -7,13 +7,13 @@
 
 #include <xml.h>
 
-xml_node *xml_new_node(xml_node *parent)
+xml_node *xml_new_node(xml_node *parent, char *tag, char *inner_text)
 {
     xml_node *node = calloc(1, sizeof(xml_node));
 
     node->parent = parent;
-    node->tag = NULL;
-    node->inner_text = NULL;
+    node->tag = tag ? strdup(tag) : NULL;
+    node->inner_text = inner_text ? strdup(inner_text) : NULL;
     node->list_attributes = list_new();
     node->list_children = list_new();
     if (parent)

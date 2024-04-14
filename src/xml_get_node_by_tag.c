@@ -11,7 +11,7 @@ xml_node *xml_get_node_by_tag(xml_node *node, char *tag)
 {
     xml_node *res;
 
-    if (node == NULL)
+    if (node == NULL || tag == NULL || node->tag == NULL)
         return NULL;
     if (strcmp(node->tag, tag) == 0)
         return node;

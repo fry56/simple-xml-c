@@ -15,7 +15,7 @@ xml *xml_load(const char *path)
 
     if (doc == NULL || file == NULL)
         return NULL;
-    doc->root = xml_new_node(NULL);
+    doc->root = xml_new_node(NULL, NULL, NULL);
     if (!xml_parser(doc, file->buf)) {
         xml_free(doc);
         return NULL;

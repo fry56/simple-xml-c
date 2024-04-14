@@ -7,12 +7,12 @@
 
 #include <xml.h>
 
-xml *xml_new(void)
+xml *xml_new(char *tag)
 {
     xml *doc = calloc(1, sizeof(xml));
 
     if (doc == NULL)
         return NULL;
-    doc->root = xml_new_node(NULL);
+    doc->root = xml_new_node(NULL, tag ? tag : NULL, NULL);
     return doc;
 }

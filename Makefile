@@ -16,6 +16,7 @@ SRC = \
 	src/xml_file.c \
 	src/xml_new.c \
 	src/xml_str.c \
+	src/xml_add_node.c \
 	src/xml_get_node_by_tag.c \
 	\
 	src/utils_str_match.c \
