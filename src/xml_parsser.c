@@ -5,11 +5,12 @@
 ** xml_parsser
 */
 
-#include <string.h>
+#include "xml.h"
+#include "utils.h"
 
-int xml_is_valid_end_tag(char *buf, xml_node *current, size_t *index)
+static int xml_is_valid_end_tag(char *buf, xml_node *current, size_t *index)
 {
-    int temp_len;
+    unsigned long temp_len;
 
     if (buf[*index + 1] == '/') {
         temp_len = strlen(current->tag);
@@ -22,26 +23,26 @@ int xml_is_valid_end_tag(char *buf, xml_node *current, size_t *index)
     return 2;
 }
 
-bool xml_parser(xml *doc, tfile_s *file)
+bool xml_parser(xml *doc, xml_file *file)
 {
     size_t index = 0;
-    char *buf = tstr_match(file->buf, "<.*>");
+    char *buf = str_match(file->buf, "<.*>");
     xml_node *current = NULL;
-    int valide_end;
+    int valid_end;
 
     while (buf[index] != '\0') {
         if (buf[index] != '<') {
             index++;
             continue;
         }
-        valide_end = xml_is_valid_end_tag(buf, current, &index);
-        if (valide_end == 1) {
+        valid_end = xml_is_valid_end_tag(buf, current, &index);
+        if (valid_end == 1) {
             current = current->parent;
             continue;
         }
-        if (valide_end == 0)
+        if (valid_end == 0)
             return false;
-        xml_add_datas(doc, &current, &index, buf);
+        xml_add_data(doc, &current, &index, buf);
     }
     return true;
 }

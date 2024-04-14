@@ -13,13 +13,19 @@ SRC = \
 	src/xml_load.c \
 	src/xml_parsser.c \
 	src/xml_node.c \
+	src/xml_file.c \
+	src/xml_new.c \
+	\
+	src/utils_str_match.c \
+	src/utils_str_index_of.c \
+	src/utils_str_split.c \
 
 OBJ = $(SRC:.c=.o)
 
 GCC = gcc
 
 INCLUDE_FLAGS = \
-	-I include
+	-I include \
 	-I ../simple-list-c/include
 
 C_WARNING_FLAGS = -Wextra -Wall -g

@@ -5,11 +5,11 @@
 ** desc
 */
 
-#include <t_xml_token.h>
+#include <xml.h>
 #include <stdlib.h>
 
-void t_xml_free(t_xml *doc)
+void xml_free(xml *doc)
 {
-    t_xml_node_free(doc->root);
+    xml_node_free(doc->root);
     free(doc);
 }

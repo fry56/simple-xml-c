@@ -5,43 +5,51 @@
 ** xml_get_node_tag
 */
 
-static void get_node_tag_attribute(t_xml_node *node, char *buf)
+#include <xml.h>
+#include <utils.h>
+
+static void get_node_tag_attribute(xml_node *node, char *buf)
 {
-    char *match = tstr_match(buf, " .*=\".*\"");;
-    int key_end, attribute_end;
-    t_xml_attribute *temp;
+    char *match = str_match(buf, " .*=\".*\"");
+    size_t key_end;
+    size_t attribute_end;
+    xml_attribute *temp;
 
     if (match == NULL)
         return;
     while (match++) {
-        tassert((temp = tcalloc(1, sizeof(t_xml_attribute))) == NULL);
-        key_end = tstr_index_of(match, "=\"");
-        temp->key = tstr_ncpy(NULL, match, key_end - 1);
-        attribute_end = tstr_index_of(match + key_end + 2, "\"");
-        temp->value = tstr_ncpy(NULL, match + key_end + 2, attribute_end - 1);
-        tlist_add(node->list_attributes, temp);
+        temp = calloc(1, sizeof(xml_attribute));
+        key_end = str_index_of(match, "=\"");
+        temp->key = calloc(1, key_end - 1);
+        strncpy(temp->key, match, key_end - 1);
+        attribute_end = str_index_of(match + key_end + 2, "\"");
+        temp->value = calloc(1, attribute_end - 1);
+        strncpy(temp->value, match + key_end + 2, attribute_end - 1);
+        list_add(node->list_attributes, temp);
         if (*(match + key_end + 2 + attribute_end + 1) == '>')
             return;
-        if ((match = tstr_match(match + key_end + attribute_end + 3,
-                                " .*=\".*\"")) == NULL)
+        if ((match = str_match(match + key_end + attribute_end + 3, " .*=\".*\"")) == NULL)
             return;
     }
 }
 
-int xml_get_node_tag(t_xml_node *node, char *buf)
+size_t xml_get_node_tag(xml_node *node, char *buf)
 {
-    char *match = tstr_match(buf, "<.*>");
-    int i = 0;
-    int tag_end;
+    char *match = str_match(buf, "<.*>");
+    size_t i = 0;
+    size_t tag_end;
 
     if (match == NULL)
         return 0;
     get_node_tag_attribute(node, match);
-    tag_end = tstr_index_of(match, " ");
+    tag_end = str_index_of(match, " ");
     for (; match[i] != '>'; ++i);
-    if (tag_end < i && tag_end > 0)
-        node->tag = tstr_ncpy(NULL, match + 1, tag_end - 2);
-    else
-        node->tag = tstr_ncpy(NULL, match + 1, i - 2);
+    if (tag_end < i && tag_end > 0) {
+        node->tag = calloc(1, tag_end - 2);
+        strncpy(node->tag, match + 1, tag_end - 2);
+    } else {
+        node->tag = calloc(1, i - 2);
+        strncpy(node->tag, match + 1, i - 2);
+    }
     return i + 1;
 }
