@@ -56,8 +56,8 @@ void serialize_node_elem(xml_node_t *node, char **result)
     char *temp;
     char *child_str;
 
-    list_foreach(node->list_children, child) {
-        child_str = serialize_node((xml_node_t *) child->value);
+    for (list_node_t *n = node->list_children->head; n; n = n->next) {
+        child_str = serialize_node((xml_node_t *) n->value);
         if (!child_str)
             continue;
         temp = append_str(*result, child_str);

@@ -23,15 +23,17 @@ xml_node_t *xml_new_node(xml_node_t *parent, char *tag, char *inner_text)
 
 void xml_node_free(xml_node_t *xml_node)
 {
-    list_foreach(xml_node->list_attributes, node) {
+    for (list_node_t *node = xml_node->list_attributes->head;
+        node; node = node->next) {
         free(((xml_attribute_t *)node->value)->value);
         free(((xml_attribute_t *)node->value)->key);
         free(node->value);
     }
     list_clear(xml_node->list_attributes);
     free(xml_node->list_attributes);
-    list_foreach(xml_node->list_children, node)
-    xml_node_free(node->value);
+    for (list_node_t *node = xml_node->list_children->head;
+        node; node = node->next)
+        xml_node_free(node->value);
     list_clear(xml_node->list_children);
     free(xml_node->list_children);
     free(xml_node);

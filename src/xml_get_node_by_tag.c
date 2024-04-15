@@ -7,17 +7,17 @@
 
 #include <xml.h>
 
-xml_node_t *xml_get_node_by_tag(xml_node_t *node, char *tag)
+xml_node_t *xml_get_node_by_tag(xml_node_t *data, char *tag)
 {
     xml_node_t *res;
 
-    if (node == NULL || tag == NULL || node->tag == NULL)
+    if (data == NULL || tag == NULL || data->tag == NULL)
         return NULL;
-    if (strcmp(node->tag, tag) == 0)
-        return node;
-    list_foreach(node->list_children, tmp)
-    {
-        res = xml_get_node_by_tag(tmp->value, tag);
+    if (strcmp(data->tag, tag) == 0)
+        return data;
+    for (list_node_t *node = data->list_children->head;
+        node; node = node->next) {
+        res = xml_get_node_by_tag(node->value, tag);
         if (res != NULL)
             return res;
     }
