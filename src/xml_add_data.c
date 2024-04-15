@@ -7,7 +7,7 @@
 
 #include <xml.h>
 
-void xml_add_data(xml *doc, xml_node **current,
+void xml_add_data(xml_t *doc, xml_node_t **current,
     size_t *index, char *buf)
 {
     if (*current == NULL)

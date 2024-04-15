@@ -12,6 +12,6 @@
 
 int str_index_of(char *buf, char *value);
 char *str_match(char *buf, char *match);
-list *str_split(char *buf, char *split);
-list *str_split_list(const char *buf, const int split_length,
+list_t *str_split(char *buf, char *split);
+list_t *str_split_list(const char *buf, const int split_length,
     const char **split);

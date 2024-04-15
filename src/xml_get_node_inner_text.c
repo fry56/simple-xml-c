@@ -7,7 +7,7 @@
 
 #include <xml.h>
 
-size_t xml_get_node_inner_text(xml_node *node, char *buf)
+size_t xml_get_node_inner_text(xml_node_t *node, char *buf)
 {
     size_t index = 0;
 

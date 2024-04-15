@@ -7,7 +7,7 @@
 
 #include "xml.h"
 
-void xml_add_node(xml_node *node, xml_node *new_node)
+void xml_add_node(xml_node_t *node, xml_node_t *new_node)
 {
     new_node->parent = node;
     list_add(node->list_children, new_node);

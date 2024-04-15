@@ -9,7 +9,7 @@
 #include "utils.h"
 #include <stdio.h>
 
-static int xml_is_valid_end_tag(char *buf, xml_node *current, size_t *index)
+static int xml_is_valid_end_tag(char *buf, xml_node_t *current, size_t *index)
 {
     unsigned long temp_len;
 
@@ -24,11 +24,11 @@ static int xml_is_valid_end_tag(char *buf, xml_node *current, size_t *index)
     return 2;
 }
 
-bool xml_parser(xml *doc, char *content)
+bool xml_parser(xml_t *doc, char *content)
 {
     size_t index = 0;
     char *buf = str_match(content, "<.*>");
-    xml_node *current = NULL;
+    xml_node_t *current = NULL;
     int valid_end;
 
     if (buf == NULL)

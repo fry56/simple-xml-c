@@ -7,9 +7,9 @@
 
 #include <xml.h>
 
-xml *xml_new(char *tag)
+xml_t *xml_new(char *tag)
 {
-    xml *doc = calloc(1, sizeof(xml));
+    xml_t *doc = calloc(1, sizeof(xml_t));
 
     if (doc == NULL)
         return NULL;

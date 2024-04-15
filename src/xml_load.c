@@ -8,10 +8,10 @@
 #include "xml.h"
 #include <stdlib.h>
 
-xml *xml_load(const char *path)
+xml_t *xml_load(const char *path)
 {
-    xml *doc = calloc(1, sizeof(xml));
-    xml_file *file = xml_file_open((char *)path, O_RDONLY, true);
+    xml_t *doc = calloc(1, sizeof(xml_t));
+    xml_file_t *file = xml_file_open((char *)path, O_RDONLY, true);
 
     if (doc == NULL || file == NULL)
         return NULL;

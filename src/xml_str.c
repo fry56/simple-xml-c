@@ -10,7 +10,8 @@
 #include <string.h>
 #include <xml.h>
 
-char *append_str(char *orig, const char *append) {
+static char *append_str(char *orig, const char *append)
+{
     size_t orig_len = orig ? strlen(orig) : 0;
     size_t append_len;
     char *new_str;
@@ -27,16 +28,17 @@ char *append_str(char *orig, const char *append) {
     return new_str;
 }
 
-char *serialize_attributes(list *attrs)
+static char *serialize_attributes(list_t *attrs)
 {
     char *result = strdup("");
     char buffer[256];
     char *temp;
-    xml_attribute *attr;
+    xml_attribute_t *attr;
 
-    if (!attrs) return result;
-    for (list_node *node = attrs->head; node; node = node->next) {
-        attr = (xml_attribute *)node->value;
+    if (!attrs)
+        return result;
+    for (list_node_t *node = attrs->head; node; node = node->next) {
+        attr = (xml_attribute_t *)node->value;
         buffer[0] = '\0';
         sprintf(buffer, " %s=\"%s\"", attr->key, attr->value);
         temp = append_str(result, buffer);
@@ -49,13 +51,13 @@ char *serialize_attributes(list *attrs)
     return result;
 }
 
-void serialize_node_elem(xml_node *node, char **result)
+void serialize_node_elem(xml_node_t *node, char **result)
 {
     char *temp;
+    char *child_str;
 
-    for (list_node *child = node->list_children->head; child; child = child->next) {
-        char *child_str = serialize_node((xml_node *) child->value);
-
+    list_foreach(node->list_children, child) {
+        child_str = serialize_node((xml_node_t *) child->value);
         if (!child_str)
             continue;
         temp = append_str(*result, child_str);
@@ -68,7 +70,7 @@ void serialize_node_elem(xml_node *node, char **result)
     }
 }
 
-char *serialize_node_content(xml_node *node)
+char *serialize_node_content(xml_node_t *node)
 {
     char *result = strdup("");
     char *temp;
@@ -85,7 +87,7 @@ char *serialize_node_content(xml_node *node)
     return result;
 }
 
-char *serialize_node(xml_node *node)
+char *serialize_node(xml_node_t *node)
 {
     char *attrs = serialize_attributes(node->list_attributes);
     char *content = serialize_node_content(node);
@@ -103,9 +105,9 @@ char *serialize_node(xml_node *node)
     return result;
 }
 
-char *xml_str(xml *doc)
+char *xml_str(xml_t *doc)
 {
-    if (!doc || !doc->root) return NULL;
-    char *result = serialize_node(doc->root);
-    return result;
+    if (!doc || !doc->root)
+        return NULL;
+    return serialize_node(doc->root);
 }

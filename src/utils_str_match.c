@@ -11,7 +11,7 @@ const char *split_array[] = {".*"};
 
 char *str_match(char *buf, char *match)
 {
-    list *split = str_split_list(match, 1, split_array);
+    list_t *split = str_split_list(match, 1, split_array);
     int start_index;
 
     if (split == NULL)
@@ -23,7 +23,7 @@ char *str_match(char *buf, char *match)
     }
     if (split->length == 1)
         return buf + start_index;
-    for (list_node *node = split->head->next; node; node = node->next) {
+    for (list_node_t *node = split->head->next; node; node = node->next) {
         if (str_index_of(buf, node->value) == -1) {
             list_free(split);
             return NULL;

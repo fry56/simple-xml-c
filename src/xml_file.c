@@ -7,7 +7,7 @@
 
 #include <xml.h>
 
-static void init_buf(xml_file *new_file)
+static void init_buf(xml_file_t *new_file)
 {
     new_file->buf = calloc(1, new_file->size + 1);
     if (new_file->buf == NULL)
@@ -20,7 +20,7 @@ static void init_buf(xml_file *new_file)
     }
 }
 
-void xml_file_close(xml_file *file)
+void xml_file_close(xml_file_t *file)
 {
     if (file == NULL)
         return;
@@ -30,15 +30,15 @@ void xml_file_close(xml_file *file)
     free(file);
 }
 
-xml_file *xml_file_open(char *path, int flags, bool buff)
+xml_file_t *xml_file_open(char *path, int flags, bool buff)
 {
     int fd = open(path, flags);
     struct stat sb;
-    xml_file *new_file;
+    xml_file_t *new_file;
 
     if (fd == -1)
         return NULL;
-    new_file = calloc(1, sizeof(xml_file));
+    new_file = calloc(1, sizeof(xml_file_t));
     if (new_file == NULL)
         return NULL;
     stat(path, &sb);

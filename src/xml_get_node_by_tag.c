@@ -7,9 +7,9 @@
 
 #include <xml.h>
 
-xml_node *xml_get_node_by_tag(xml_node *node, char *tag)
+xml_node_t *xml_get_node_by_tag(xml_node_t *node, char *tag)
 {
-    xml_node *res;
+    xml_node_t *res;
 
     if (node == NULL || tag == NULL || node->tag == NULL)
         return NULL;

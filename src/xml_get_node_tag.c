@@ -8,32 +8,49 @@
 #include <xml.h>
 #include <utils.h>
 
-static void get_node_tag_attribute(xml_node *node, char *buf)
+static xml_attribute_t *parse_attribute(char *match, size_t *end_pos)
+{
+    xml_attribute_t *attr = calloc(1, sizeof(xml_attribute_t));
+    size_t key_end = str_index_of(match, "=\"");
+    size_t value_start;
+    size_t value_end;
+
+    if (!attr)
+        return NULL;
+    attr->key = strndup(match, key_end);
+    value_start = key_end + 2;
+    value_end = str_index_of(match + value_start, "\"");
+    attr->value = strndup(match + value_start, value_end);
+    *end_pos = value_start + value_end + 1;
+    return attr;
+}
+
+static char *find_next_attribute(char *current)
+{
+    if (*current == '>')
+        return NULL;
+    return str_match(current, " .*=\".*\"");
+}
+
+static void get_node_tag_attribute(xml_node_t *node, char *buf)
 {
     char *match = str_match(buf, " .*=\".*\"");
-    size_t key_end;
-    size_t attribute_end;
-    xml_attribute *temp;
+    size_t end_pos;
+    xml_attribute_t *attr;
 
-    if (match == NULL)
+    if (!match)
         return;
-    while (match++) {
-        temp = calloc(1, sizeof(xml_attribute));
-        key_end = str_index_of(match, "=\"");
-        temp->key = calloc(1, key_end);
-        strncpy(temp->key, match, key_end);
-        attribute_end = str_index_of(match + key_end + 2, "\"");
-        temp->value = calloc(1, attribute_end);
-        strncpy(temp->value, match + key_end + 2, attribute_end - 1);
-        list_add(node->list_attributes, temp);
-        if (*(match + key_end + 2 + attribute_end + 1) == '>')
-            return;
-        if ((match = str_match(match + key_end + attribute_end + 3, " .*=\".*\"")) == NULL)
-            return;
+    while (match) {
+        end_pos = 0;
+        attr = parse_attribute(match, &end_pos);
+        if (!attr)
+            break;
+        list_add(node->list_attributes, attr);
+        match = find_next_attribute(match + end_pos);
     }
 }
 
-size_t xml_get_node_tag(xml_node *node, char *buf)
+size_t xml_get_node_tag(xml_node_t *node, char *buf)
 {
     char *match = str_match(buf, "<.*>");
     size_t i = 0;

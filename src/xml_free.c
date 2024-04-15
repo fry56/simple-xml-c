@@ -8,7 +8,7 @@
 #include <xml.h>
 #include <stdlib.h>
 
-void xml_free(xml *doc)
+void xml_free(xml_t *doc)
 {
     xml_node_free(doc->root);
     free(doc);

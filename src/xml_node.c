@@ -7,9 +7,9 @@
 
 #include <xml.h>
 
-xml_node *xml_new_node(xml_node *parent, char *tag, char *inner_text)
+xml_node_t *xml_new_node(xml_node_t *parent, char *tag, char *inner_text)
 {
-    xml_node *node = calloc(1, sizeof(xml_node));
+    xml_node_t *node = calloc(1, sizeof(xml_node_t));
 
     node->parent = parent;
     node->tag = tag ? strdup(tag) : NULL;
@@ -21,11 +21,11 @@ xml_node *xml_new_node(xml_node *parent, char *tag, char *inner_text)
     return node;
 }
 
-void xml_node_free(xml_node *xml_node)
+void xml_node_free(xml_node_t *xml_node)
 {
     list_foreach(xml_node->list_attributes, node) {
-        free(((xml_attribute *)node->value)->value);
-        free(((xml_attribute *)node->value)->key);
+        free(((xml_attribute_t *)node->value)->value);
+        free(((xml_attribute_t *)node->value)->key);
         free(node->value);
     }
     list_clear(xml_node->list_attributes);
